@@ -54,7 +54,7 @@ ActiveAdmin.setup do |config|
   #
   # This setting changes the method which Active Admin calls
   # within the application controller.
-  config.authentication_method = :authenticate_admin_user!
+  #config.authentication_method = :authenticate_admin_user!
 
   # == User Authorization
   #
@@ -91,7 +91,7 @@ ActiveAdmin.setup do |config|
   #
   # This setting changes the method which Active Admin calls
   # (within the application controller) to return the currently logged in user.
-  config.current_user_method = :current_admin_user
+  #config.current_user_method = :current_admin_user
 
   # == Logging Out
   #
@@ -103,7 +103,7 @@ ActiveAdmin.setup do |config|
   # will call the method to return the path.
   #
   # Default:
-  config.logout_link_path = :destroy_admin_user_session_path
+  #config.logout_link_path = :destroy_admin_user_session_path
 
   # This setting changes the http method used when rendering the
   # link. For example :get, :delete, :put, etc..
@@ -332,4 +332,20 @@ ActiveAdmin.setup do |config|
   # You can switch to using Webpacker here.
   #
   # config.use_webpacker = true
+  config.default_namespace = :admin
+
+  config.namespace :admin do |admin|
+    admin.authentication_method = :authenticate_admin_user!
+    admin.current_user_method = :current_admin_user
+    admin.logout_link_path = :destroy_admin_user_session_path
+  end
+
+  config.namespace :partner_admin do |admin|
+    admin.authentication_method = :authenticate_partner_user!
+    admin.current_user_method = :current_partner_user
+    admin.logout_link_path = :destroy_partner_user_session_path
+    admin.root_to = 'dashboard#index'
+  end
+  config.load_paths = [File.expand_path('app/admin', Rails.root), File.expand_path('app/partner_admin', Rails.root)] 
+
 end

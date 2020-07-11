@@ -4,6 +4,12 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+    user ||= AdminUser.new
+    if user.class.name == "AdminUser"
+        can :manage, :all
+    elsif  user.class.name == "PartnerUser"
+        partner_user_abilities(user)
+    end
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)
@@ -31,4 +37,10 @@ class Ability
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
   end
+
+    private
+
+    def partner_user_abilities(user)
+        can :read, ActiveAdmin::Page, :name => "Dashboard"
+    end
 end
